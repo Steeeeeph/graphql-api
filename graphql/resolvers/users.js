@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {UserInputError} = require('apollo-server');
-
+const dotenv = require('dotenv');
 const User = require('../../models/User');
-const {SECRET_KEY} = require('../../config');
 const {validateRegisterInput, validateLoginInput} = require('../../util/validators');
+dotenv.config();
 
 const generateToken = (user) => {
     return jwt.sign(
@@ -13,7 +13,7 @@ const generateToken = (user) => {
             email: user.email,
             username: user.username
         },
-        SECRET_KEY,
+        process.env.NODE_SECRET_KEY,
         {
             expiresIn: '1h'
         }
